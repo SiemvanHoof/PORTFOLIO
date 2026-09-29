@@ -7,6 +7,7 @@
   --fg: #020108;
   --muted: #6b6b70;
   --line: rgb(2 1 8 / 0.12);
+  --panel: #d9d9d9;
 }
 
 .dark {
@@ -14,6 +15,7 @@
   --fg: #f5f5f5;
   --muted: #8a8a90;
   --line: rgb(255 255 255 / 0.12);
+  --panel: #1c1c21;
 }
 
 @theme inline {
@@ -21,6 +23,7 @@
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-panel: var(--panel);
 }
 
 body {

@@ -1,11 +1,13 @@
-import ThemeToggle from "@/components/ThemeToggle";
+import Reveal from "@/components/Reveal";
 
-export default function Home() {
+export const metadata = { title: "About" };
+
+export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8">
-      <h1 className="text-6xl font-medium tracking-tight">Siem van Hoof</h1>
-      <p className="text-muted">Lorem Ipsum</p>
-      <ThemeToggle/>
+    <main className="flex min-h-screen items-center px-6 md:px-12">
+      <Reveal>
+        <h1 className="text-6xl font-medium tracking-tight md:text-8xl">About.</h1>
+      </Reveal>
     </main>
-  );  
+  );
 }
