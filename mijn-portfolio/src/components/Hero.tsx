@@ -76,7 +76,7 @@ export default function Hero() {
   }, [done]);
 
   const scrollDown = () => {
-    const target = document.getElementById("work");
+    const target = root.current?.nextElementSibling as HTMLElement | null;
     if (!target) return;
     if (lenis) lenis.scrollTo(target, { duration: 1.4 });
     else target.scrollIntoView({ behavior: "smooth" });

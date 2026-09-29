@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* dark: werkt op basis van een .dark class op <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -8,6 +9,12 @@
   --muted: #6b6b70;
   --line: rgb(2 1 8 / 0.12);
   --panel: #d9d9d9;
+  --surface: #f4f4f5;
+  --frame: #0b0b0f;
+
+  /* Accent voor de werkwijze-kaarten (verloop van boven naar beneden) */
+  --accent: #e55a2b;
+  --accent-2: #ec7a32;
 }
 
 .dark {
@@ -16,6 +23,8 @@
   --muted: #8a8a90;
   --line: rgb(255 255 255 / 0.12);
   --panel: #1c1c21;
+  --surface: #0f0f14;
+  --frame: #1c1c21;
 }
 
 @theme inline {
@@ -24,6 +33,9 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-panel: var(--panel);
+  --color-surface: var(--surface);
+  --color-frame: var(--frame);
+  --color-accent: var(--accent);
 }
 
 body {
