@@ -1,6 +1,7 @@
 export const siteName = "Siem van Hoof";
 export const email = "siemvanhoof.web@gmail.com";
 export const availability = "Beschikbaar voor projecten";
+export const location = "Jouw stad, NL";
 
 export const navLinks = [
   { href: "/", label: "Home" },
