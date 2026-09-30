@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 import { useSmoothScroll } from "./SmoothScroll";
 import { usePreloaderDone } from "@/lib/usePreLoaderDone";
-
 // ── Placeholderteksten: pas deze later aan ──
 const title = ["Digital designer", "& developer."];
 const place = "Based in Jouw stad, NL";
-const disciplines = ["Web design", "Development", "Branding", "Motion", "Art direction"];
+const disciplines = ["Web design", "Development", "Motion", "UX design", "Art direction"];
 const images = [1, 2, 3, 4, 5].map((n) => `https://picsum.photos/seed/portfolio-${n}/600/800`);
 
 function LocalTime() {
@@ -75,6 +74,7 @@ export default function Hero() {
     return () => clearInterval(id);
   }, [done]);
 
+  // Scroll naar de sectie direct na de hero
   const scrollDown = () => {
     const target = root.current?.nextElementSibling as HTMLElement | null;
     if (!target) return;

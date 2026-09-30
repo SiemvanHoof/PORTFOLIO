@@ -1,51 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { useGSAP } from "@gsap/react";
+import { usePathname } from "next/navigation";
 import { siteName, email, navLinks, socials, availability, location } from "@/data/site";
 import { useSmoothScroll } from "./SmoothScroll";
 import LineReveal from "./LineReveal";
 
 export default function Footer() {
-  const root = useRef<HTMLElement>(null);
-  const fitBox = useRef<HTMLDivElement>(null);
-  const word = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
   const lenis = useSmoothScroll();
-
-  // Naam altijd precies van rand tot rand laten passen
-  useEffect(() => {
-    const box = fitBox.current;
-    const el = word.current;
-    if (!box || !el) return;
-
-    const fit = () => {
-      el.style.fontSize = "100px";
-      el.style.fontSize = `${(100 * box.clientWidth) / el.scrollWidth}px`;
-      ScrollTrigger.refresh();
-    };
-
-    fit();
-    document.fonts.ready.then(fit);
-    const observer = new ResizeObserver(fit);
-    observer.observe(box);
-    return () => observer.disconnect();
-  }, []);
-
-  // Letters schuiven één voor één omhoog als de footer in beeld komt
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".ft-letter", {
-        yPercent: 100,
-        duration: 1,
-        stagger: 0.03,
-        ease: "power4.out",
-        scrollTrigger: { trigger: word.current, start: "top 95%" },
-      });
-    },
-    { scope: root }
-  );
+  const showCta = pathname !== "/contact";
 
   const toTop = () => {
     if (lenis) lenis.scrollTo(0, { duration: 1.6 });
@@ -53,34 +16,38 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={root} className="border-t border-line">
-      {/* Contactblok */}
-      <div className="grid px-3 md:grid-cols-[1fr_3fr] md:px-8">
-        <p className="pt-8 text-sm md:border-r md:border-line md:pr-8">Contact</p>
-        <div className="pb-10 pt-6 md:pb-14 md:pl-8 md:pt-8">
-          <LineReveal
-            lines={["Heb je een idee?", "Laten we praten."]}
-            className="text-[12vw] font-medium leading-[1.05] tracking-tighter md:text-[7vw]"
-          />
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href="/contact"
-              className="rounded-full bg-fg px-6 py-3 text-sm text-bg transition-opacity hover:opacity-80"
-            >
-              Start een project
-            </Link>
-            <a
-              href={`mailto:${email}`}
-              className="rounded-full border border-line px-6 py-3 text-sm transition-colors hover:bg-surface"
-            >
-              {email}
-            </a>
+    <footer className="border-t border-line">
+      {/* Contactblok (niet op de contactpagina zelf) */}
+      {showCta && (
+        <div className="grid px-3 md:grid-cols-[1fr_3fr] md:px-8">
+          <p className="pt-8 text-sm md:border-r md:border-line md:pr-8">Contact</p>
+          <div className="pb-10 pt-6 md:pb-14 md:pl-8 md:pt-8">
+            <LineReveal
+              lines={["Heb je een idee?", "Laten we praten."]}
+              className="text-[12vw] font-medium leading-[1.05] tracking-tighter md:text-[7vw]"
+            />
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                href="/contact"
+                className="rounded-full bg-fg px-6 py-3 text-sm text-bg transition-opacity hover:opacity-80"
+              >
+                Start een project
+              </Link>
+              <a
+                href={`mailto:${email}`}
+                className="rounded-full border border-line px-6 py-3 text-sm transition-colors hover:bg-surface"
+              >
+                {email}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Lijnengrid met links */}
-      <div className="grid gap-px border-y border-line bg-line md:grid-cols-3">
+      <div
+        className={`grid gap-px border-line bg-line md:grid-cols-3 ${showCta ? "border-y" : "border-b"}`}
+      >
         <div className="bg-bg p-4 md:p-6">
           <p className="mb-3 text-xs text-muted">Menu</p>
           <ul className="space-y-1.5 text-sm">
@@ -99,7 +66,12 @@ export default function Footer() {
           <ul className="space-y-1.5 text-sm">
             {socials.map((s) => (
               <li key={s.href}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-60">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-opacity hover:opacity-60"
+                >
                   {s.label}
                 </a>
               </li>
@@ -118,9 +90,6 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-
-      {/* Gigantische naam */}
-      
 
       {/* Onderste regel */}
       <div className="flex items-center justify-between px-3 py-4 text-xs text-muted md:px-8">
