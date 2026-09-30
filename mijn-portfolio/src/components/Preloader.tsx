@@ -7,8 +7,10 @@ import { useSmoothScroll } from "./SmoothScroll";
 
 const STORAGE_KEY = "preloaded";
 
+// Snelheid: hoe lang de teller over 0 → 100 doet (in seconden)
 const COUNT_DURATION = 5;
 
+// Placeholderbeelden — later vervangen door je eigen beelden in /public
 const images = [1, 2, 3, 4, 5].map((n) => `https://picsum.photos/seed/portfolio-${n}/600/800`);
 
 export default function Preloader() {
@@ -30,10 +32,18 @@ export default function Preloader() {
     () => {
       const html = document.documentElement;
 
-      // Al eerder geladen in deze sessie? Dan meteen klaar.
-      if (html.dataset.preloaded) {
+      const markDone = () => {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, "1");
+        } catch {}
+        html.dataset.preloaded = "1";
         setActive(false);
         window.dispatchEvent(new Event("preloader:done"));
+      };
+
+      // Alleen bij binnenkomst op de homepage, en maar één keer per sessie
+      if (html.dataset.preloaded || window.location.pathname !== "/") {
+        markDone();
         return;
       }
 
@@ -83,20 +93,11 @@ export default function Preloader() {
           );
       });
 
-      const finish = () => {
-        try {
-          sessionStorage.setItem(STORAGE_KEY, "1");
-        } catch {}
-        html.dataset.preloaded = "1";
-        setActive(false);
-        window.dispatchEvent(new Event("preloader:done"));
-      };
-
       // Pas weg als de intro klaar is én alles geladen is
       Promise.all([intro.then(), loaded]).then(() => {
         if (cancelled) return;
         gsap
-          .timeline({ onComplete: finish })
+          .timeline({ onComplete: markDone })
           .to(lines, { yPercent: -100, duration: 0.8, stagger: 0.05, ease: "power3.in" })
           .to(imageWrap.current, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.8, ease: "power3.in" }, 0)
           .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 1.2, ease: "power4.inOut" }, "-=0.2");

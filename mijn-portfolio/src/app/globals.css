@@ -1,18 +1,16 @@
 @import "tailwindcss";
 
-/* dark: werkt op basis van een .dark class op <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --bg: #ffffff;
   --fg: #020108;
-  --muted: #6b6b70;
+  --muted: #5f5f66;
   --line: rgb(2 1 8 / 0.12);
-  --panel: #d9d9d9;
+  --panel: #e4e4e7;
   --surface: #f4f4f5;
   --frame: #0b0b0f;
 
-  /* Accent voor de werkwijze-kaarten (verloop van boven naar beneden) */
   --accent: #e55a2b;
   --accent-2: #ec7a32;
 }
@@ -42,6 +40,16 @@ body {
   background: var(--bg);
   color: var(--fg);
   transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+[tabindex="-1"]:focus {
+  outline: none;
 }
 
 html[data-preloaded] .preloader {

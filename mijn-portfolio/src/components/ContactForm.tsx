@@ -6,12 +6,14 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form));
     setStatus("sending");
+    setErrorMessage("");
 
     try {
       const res = await fetch("/api/contact", {
@@ -19,10 +21,12 @@ export default function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error();
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error);
       form.reset();
       setStatus("sent");
-    } catch {
+    } catch (err) {
+      setErrorMessage(err instanceof Error && err.message ? err.message : "");
       setStatus("error");
     }
   }
@@ -45,7 +49,15 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-10">
+    <form onSubmit={onSubmit} className="relative space-y-10">
+      {/* Spambeveiliging: onzichtbaar voor mensen, bots vullen dit wel in */}
+      <div aria-hidden className="absolute -left-[9999px] top-0">
+        <label>
+          Laat dit veld leeg
+          <input type="text" name="hp_check" tabIndex={-1} autoComplete="new-password" />
+        </label>
+      </div>
+
       <div className="grid gap-10 md:grid-cols-2">
         <Field label="Naam" name="name" required autoComplete="name" />
         <Field label="E-mail" name="email" type="email" required autoComplete="email" />
@@ -65,14 +77,18 @@ export default function ContactForm() {
           name="message"
           rows={5}
           required
+          maxLength={5000}
           className="mt-2 w-full resize-none border-b border-line bg-transparent py-3 text-lg outline-none transition-colors focus:border-fg"
         />
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-6">
-        <p className={`text-xs ${status === "error" ? "text-red-500" : "text-muted"}`}>
+        <p
+          role={status === "error" ? "alert" : undefined}
+          className={`text-xs ${status === "error" ? "text-red-500" : "text-muted"}`}
+        >
           {status === "error"
-            ? "Er ging iets mis. Probeer het opnieuw of mail me direct."
+            ? errorMessage || "Er ging iets mis. Probeer het opnieuw of mail me direct."
             : `Ik reageer ${contact.responseTime.toLowerCase()}.`}
         </p>
         <button
@@ -108,6 +124,7 @@ function Field({ label, name, type = "text", required, autoComplete }: FieldProp
         type={type}
         required={required}
         autoComplete={autoComplete}
+        maxLength={200}
         className="mt-2 w-full border-b border-line bg-transparent py-3 text-lg outline-none transition-colors focus:border-fg"
       />
     </div>

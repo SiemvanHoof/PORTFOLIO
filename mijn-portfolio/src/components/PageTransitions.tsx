@@ -27,6 +27,9 @@ export default function PageTransition() {
     if (safety.current) clearTimeout(safety.current);
     leaving.current = false;
 
+    // Focus naar de nieuwe pagina, zodat schermlezers daar verder gaan
+    document.getElementById("content")?.focus({ preventScroll: true });
+
     gsap
       .timeline({
         onComplete: () => {
