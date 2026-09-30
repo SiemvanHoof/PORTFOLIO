@@ -3,12 +3,35 @@ import LineReveal from "@/components/LineReveal";
 import Reveal from "@/components/Reveal";
 import ParallaxImage from "@/components/ParallaxImage";
 import SectionIntro from "@/components/SectionIntro";
-import { about } from "@/data/about";
+import Age from "@/components/Age";
+import { about, type Entry } from "@/data/about";
 import { siteName } from "@/data/site";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = { title: "Over mij" };
+
+function EntryList({ items }: { items: Entry[] }) {
+  return (
+    <ul className="divide-y divide-line border-t border-line">
+      {items.map((item) => (
+        <li
+          key={item.period + item.role}
+          className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 px-3 py-6 md:grid-cols-[12rem_2fr_1fr_8rem] md:items-center md:px-8 md:py-8"
+        >
+          <span className="order-2 text-xs text-muted md:order-none">{item.period}</span>
+          <span className="order-1 col-span-2 text-xl font-medium tracking-tight md:order-none md:col-span-1 md:text-2xl">
+            {item.role}
+          </span>
+          <span className="order-3 text-sm text-muted md:order-none">{item.company}</span>
+          <span className="order-4 text-right text-xs text-muted md:order-none">{item.place}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function AboutPage() {
+  const [leadBefore, leadAfter] = about.lead.split("{age}");
+
   return (
     <main className="pt-32 md:pt-40">
       {/* Intro */}
@@ -16,7 +39,7 @@ export default function AboutPage() {
         <LineReveal
           tag="h1"
           lines={about.heading}
-          className="text-[13vw] font-medium leading-[1.05] tracking-tighter md:text-[8vw]"
+          className="text-[11vw] font-medium leading-[1.05] tracking-tighter md:text-[6.5vw]"
         />
         <Reveal delay={0.2}>
           <p className="max-w-xs text-sm leading-relaxed text-muted md:mb-[0.8em] md:text-right md:text-base">
@@ -35,7 +58,11 @@ export default function AboutPage() {
 
         <div className="col-span-12 md:col-span-6 md:col-start-7">
           <Reveal>
-            <p className="text-2xl font-medium leading-snug tracking-tight md:text-4xl">{about.lead}</p>
+            <p className="text-2xl font-medium leading-snug tracking-tight md:text-4xl">
+              {leadBefore}
+              <Age birthDate={about.birthDate} />
+              {leadAfter}
+            </p>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-10 space-y-6 text-base leading-relaxed md:text-lg">
@@ -53,8 +80,8 @@ export default function AboutPage() {
       <section className="mt-24 border-t border-line md:mt-40">
         <SectionIntro
           label="Wat ik doe"
-          heading={["Twee disciplines,", "één geheel."]}
-          text="Design en development in één hand, zodat er tussen idee en eindresultaat niets verloren gaat."
+          heading={["Ontwerpen én bouwen,", "in één hand."]}
+          text="Omdat ik allebei doe, gaat er tussen idee en eindresultaat niets verloren."
         />
 
         <div className="grid gap-px border-y border-line bg-line md:grid-cols-2">
@@ -87,28 +114,20 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">{about.toolsNote}</p>
         </Reveal>
       </section>
 
-      {/* Ervaring */}
+      {/* Werkervaring */}
       <section className="border-t border-line">
-        <SectionIntro label="Ervaring" heading={["Waar ik", "aan werkte."]} />
+        <SectionIntro label="Werkervaring" heading={["Waar ik", "gewerkt heb."]} />
+        <EntryList items={about.experience} />
+      </section>
 
-        <ul className="divide-y divide-line border-t border-line">
-          {about.experience.map((job) => (
-            <li
-              key={job.period + job.role}
-              className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 px-3 py-6 md:grid-cols-[10rem_2fr_1fr_8rem] md:items-center md:px-8 md:py-8"
-            >
-              <span className="order-2 text-xs text-muted md:order-none">{job.period}</span>
-              <span className="order-1 col-span-2 text-xl font-medium tracking-tight md:order-none md:col-span-1 md:text-2xl">
-                {job.role}
-              </span>
-              <span className="order-3 text-sm text-muted md:order-none">{job.company}</span>
-              <span className="order-4 text-right text-xs text-muted md:order-none">{job.place}</span>
-            </li>
-          ))}
-        </ul>
+      {/* Opleiding */}
+      <section className="border-t border-line">
+        <SectionIntro label="Opleiding" heading={["Waar ik", "leer."]} />
+        <EntryList items={about.education} />
       </section>
     </main>
   );

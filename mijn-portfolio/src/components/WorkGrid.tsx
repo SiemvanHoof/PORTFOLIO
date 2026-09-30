@@ -1,24 +1,23 @@
 "use client";
 import Link from "next/link";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { projects } from "@/data/projects";
 import LineReveal from "./LineReveal";
 import Reveal from "./Reveal";
 
-// ── Placeholderteksten: pas deze later aan ──
-const heading = ["Design & code.", "Made with care."];
+const heading = ["Werk waar ik", "trots op ben."];
 const intro =
-  "Een selectie van recente projecten: websites, identiteiten en digitale ervaringen die ik van eerste idee tot livegang heb ontworpen en gebouwd.";
+  "Een selectie van projecten, van websites die ik tijdens mijn stage bouwde tot eigen ontwerpen. Elk project van eerste schets tot livegang.";
 
 export default function WorkGrid() {
   const root = useRef<HTMLElement>(null);
 
   // Vakken komen één voor één omhoog als het grid in beeld komt
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
       gsap.from(".wg-cell", {
         y: 40,
         opacity: 0,
@@ -27,15 +26,16 @@ export default function WorkGrid() {
         ease: "power3.out",
         scrollTrigger: { trigger: ".wg-grid", start: "top 80%" },
       });
-    },
-    { scope: root }
-  );
+    }, root);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section ref={root} id="work" className="border-t border-line">
       {/* Intro */}
       <div className="grid px-3 md:grid-cols-[1fr_3fr] md:px-8">
-        <p className="pt-8 text-sm md:border-r md:border-line md:pr-8">Selected work</p>
+        <p className="pt-8 text-sm md:border-r md:border-line md:pr-8">Geselecteerd werk</p>
 
         <div className="pb-20 pt-6 md:pb-32 md:pl-8 md:pt-8">
           <LineReveal

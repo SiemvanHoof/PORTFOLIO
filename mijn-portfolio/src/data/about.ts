@@ -1,38 +1,61 @@
-// ── Placeholderinhoud: vervang later door je eigen verhaal ──
-export const about = {
-  heading: ["Rustig ontworpen.", "Zorgvuldig gebouwd."],
+export type Entry = { period: string; role: string; company: string; place: string };
 
-  intro: "Designer en developer met een voorliefde voor rustige, goed doordachte websites.",
+export const about = {
+  // Je leeftijd wordt hieruit berekend en gaat elk jaar op deze datum omhoog
+  birthDate: "2007-07-03",
+
+  heading: ["Jong, nieuwsgierig", "en altijd aan het bouwen."],
+
+  intro:
+    "ICT-student uit Veldhoven. Ik ontwerp en bouw websites voor ondernemers die online willen laten zien wie ze zijn.",
 
   portrait: "https://picsum.photos/seed/portrait/900/1125?grayscale",
 
-  lead: "Ik maak websites die er niet alleen goed uitzien, maar ook goed voelen: snel, helder en met oog voor elk detail.",
+  // {age} wordt vervangen door je leeftijd
+  lead: "Ik ben Siem, {age} jaar, en ik maak websites voor kleinere bedrijven: persoonlijk, overzichtelijk en tot in de details goed afgewerkt.",
 
   bio: [
-    "Mijn werk begint altijd bij de vraag áchter de vraag. Wie wil je bereiken, wat moeten ze voelen en wat moeten ze doen? Pas als dat helder is, begin ik met ontwerpen.",
-    "Omdat ik zowel ontwerp als bouw, hoeft er niets verloren te gaan tussen idee en eindresultaat. Wat in het ontwerp klopt, klopt ook in de browser, tot en met de kleinste animatie.",
-    "Ik werk graag samen met ondernemers, merken en bureaus die net zoveel waarde hechten aan kwaliteit als ik. Kleine projecten of grote, zolang er ruimte is om het goed te doen.",
+    "Computers trokken me altijd al. Tijdens een open dag bij het Summa College wist ik het eigenlijk meteen: dit wil ik doen. In mijn tweede jaar twijfelde ik even, maar ik ben doorgegaan, en daar ben ik nu blij om. Na mijn mbo-opleiding ICT stroom ik via een versneld traject in bij het tweede jaar van het hbo aan Fontys.",
+    "Tijdens mijn stage bij Questo in Veldhoven werkte ik als webdeveloper aan echte websites voor klanten, zoals die van Moduglass en Brecon. Omdat alles vrijwel direct online staat, leerde ik daar om secuur te werken en fouten snel te vinden en op te lossen. Daar maakte ik ook kennis met Next.js, de techniek waarmee deze site gebouwd is.",
+    "Ik ontwerp én bouw, en dat wil ik ook blijven doen. Ik werk het liefst voor kleinere bedrijven: korte lijnen, persoonlijk contact en een website waar je echt iets aan hebt. Mijn doel is om zo een eigen klantenkring op te bouwen, en later misschien een eigen bedrijf te beginnen.",
+    "Naast mijn studie werk ik bij Verma in Veldhoven, voetbal ik met vrienden bij DBS en speel ik tennis in de seniorencompetitie bij VLTC. En ik blijf leren: elke nieuwe taal of techniek betekent weer meer dat ik kan maken.",
   ],
 
   services: [
     {
       title: "Web design",
-      text: "Van structuur en wireframes tot een uitgewerkt ontwerp in Figma, inclusief hoe alles beweegt.",
-      items: ["Websites & landingspagina's", "UX & structuur", "Prototypes", "Motion design"],
+      text: "Van eerste schets tot uitgewerkt ontwerp in Figma, inclusief hoe alles beweegt.",
+      items: ["Websites & landingspagina's", "Ontwerp in Figma", "Structuur & gebruiksgemak", "Animaties"],
     },
     {
       title: "Development",
-      text: "Snelle, toegankelijke websites gebouwd met moderne technieken en soepele animaties.",
-      items: ["Next.js & React", "GSAP-animaties", "CMS-koppelingen", "Performance & SEO"],
+      text: "Snelle websites die er op elk scherm goed uitzien, in WordPress of Next.js.",
+      items: ["Next.js & React", "WordPress", "Responsive op elk scherm", "Snel & goed vindbaar"],
     },
   ],
 
-  tools: ["Figma", "Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Framer", "Webflow"],
+  tools: [
+    "Figma",
+    "HTML & CSS",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "GSAP",
+    "WordPress",
+  ],
+  toolsNote: "En er komt steeds meer bij: ik leer graag nieuwe talen en technieken, zodat ik meer kan maken.",
 
   experience: [
-    { period: "2025 — nu", role: "Freelance designer & developer", company: "Eigen studio", place: "NL" },
-    { period: "2023 — 2025", role: "Digital designer", company: "Bureau X", place: "Amsterdam" },
-    { period: "2022 — 2023", role: "Stagiair design & development", company: "Studio Y", place: "Utrecht" },
-    { period: "2019 — 2023", role: "Communication & Multimedia Design", company: "Hogeschool Z", place: "NL" },
-  ],
+    { period: "aug. 2025 — jan. 2026", role: "Stage softwareontwikkelaar", company: "Questo", place: "Veldhoven" },
+    { period: "mei 2023 — nu", role: "Productiemedewerker (parttime)", company: "Verma Warehouse Experts", place: "Veldhoven" },
+    { period: "okt. 2022 — jul. 2023", role: "Vakkenvuller (parttime)", company: "Albert Heijn", place: "Veldhoven" },
+    { period: "okt. 2021 — aug. 2022", role: "Postbode (parttime)", company: "Spotta", place: "Veldhoven" },
+  ] as Entry[],
+
+  education: [
+    { period: "Straks", role: "HBO ICT, versneld traject (instroom jaar 2)", company: "Fontys", place: "" },
+    { period: "Nu", role: "MBO ICT, niveau 4", company: "Summa College", place: "" },
+  ] as Entry[],
 };

@@ -1,41 +1,41 @@
 "use client";
 import Link from "next/link";
-import { RefObject, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { useGSAP } from "@gsap/react";
 import SectionIntro from "./SectionIntro";
 
-// ── Placeholderinhoud: pas deze later aan ──
 const steps = [
   {
     code: "KB",
     color: "#f4f4f5",
     title: ["Kennismaken", "& briefing."],
-    tags: ["Intake", "Doelen & doelgroep"],
-    text: "We bespreken je idee, je doelen en je doelgroep. Zo weten we allebei precies waar we naartoe werken.",
+    tags: ["Kennismaking", "Wensen & doelen"],
+    text: "We drinken een kop koffie of bellen even. Jij vertelt over je bedrijf en wat je nodig hebt, ik stel vragen en denk mee. Daarna krijg je een duidelijk voorstel.",
     image: "https://picsum.photos/seed/step-1/900/1100",
   },
   {
     code: "CD",
     color: "#ece6dc",
     title: ["Concept", "& design."],
-    tags: ["Moodboards", "Figma-ontwerp"],
-    text: "Van moodboard tot uitgewerkt ontwerp. Je ziet hoe alles eruitziet en beweegt voordat er één regel code is.",
+    tags: ["Schetsen", "Ontwerp in Figma"],
+    text: "Ik werk het idee uit tot een ontwerp in Figma. Je ziet precies hoe je site eruit komt te zien, en we schaven samen tot het klopt.",
     image: "https://picsum.photos/seed/step-2/900/1100",
   },
   {
     code: "DV",
     color: "#dfe6dc",
     title: ["Development", "& animatie."],
-    tags: ["Next.js", "GSAP"],
-    text: "Het ontwerp wordt een snelle, soepele website, met animaties die kloppen op elk scherm.",
+    tags: ["WordPress of Next.js", "Animaties"],
+    text: "Het ontwerp wordt een echte website: snel, goed te lezen op elk scherm en, als je dat wilt, makkelijk zelf aan te passen.",
     image: "https://picsum.photos/seed/step-3/900/1100",
   },
   {
     code: "LN",
     color: "#dde3ea",
     title: ["Livegang", "& nazorg."],
-    tags: ["Testen", "Support"],
-    text: "Alles wordt getest en live gezet. Ook daarna blijf ik bereikbaar voor aanpassingen en vragen.",
+    tags: ["Testen", "Hulp achteraf"],
+    text: "Alles wordt getest en live gezet. Ook daarna blijf ik bereikbaar voor vragen, kleine aanpassingen of uitbreidingen.",
     image: "https://picsum.photos/seed/step-4/900/1100",
   },
 ];
@@ -43,6 +43,7 @@ const steps = [
 export default function Process() {
   const root = useRef<HTMLElement>(null);
 
+  // Als de volgende kaart eroverheen schuift: huidige kaart krimpt en wordt donkerder
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -72,7 +73,7 @@ export default function Process() {
       <SectionIntro
         label="Werkwijze"
         heading={["Van idee tot live", "in vier stappen."]}
-        text="Een helder proces, zodat je altijd weet waar we staan en wat er komt."
+        text="Geen ingewikkeld traject, wel duidelijke stappen. Zo weet je altijd waar we staan en wat er komt."
       />
 
       <div className="px-3 pb-[10vh]">
@@ -136,14 +137,4 @@ export default function Process() {
       </div>
     </section>
   );
-}
-
-function useGSAP(callback: () => void, { scope }: { scope: RefObject<HTMLElement | null> }) {
-  useEffect(() => {
-    const element = scope.current;
-    if (!element) return;
-
-    const context = gsap.context(callback, element);
-    return () => context.revert();
-  }, [callback, scope]);
 }

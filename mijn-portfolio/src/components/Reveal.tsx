@@ -1,7 +1,6 @@
 "use client";
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 type Props = { children: React.ReactNode; delay?: number; className?: string };
 
@@ -10,17 +9,22 @@ export default function Reveal({ children, delay = 0, className }: Props) {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(ref.current, {
-          y: 60,
-          opacity: 0,
-          duration: 1.1,
-          delay,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ref.current, start: "top 85%" },
-        });
-      });
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const el = ref.current!;
+
+      gsap.set(el, { y: 60, opacity: 0 });
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          gsap.to(el, { y: 0, opacity: 1, duration: 1.1, delay, ease: "power3.out" });
+          observer.disconnect();
+        },
+        { rootMargin: "0px 0px -15% 0px" }
+      );
+      observer.observe(el);
+
+      return () => observer.disconnect();
     },
     { scope: ref }
   );

@@ -4,10 +4,11 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
 import { useSmoothScroll } from "./SmoothScroll";
 import { usePreloaderDone } from "@/lib/usePreLoaderDone";
-// ── Placeholderteksten: pas deze later aan ──
-const title = ["Digital designer", "& developer."];
-const place = "Based in Jouw stad, NL";
-const disciplines = ["Web design", "Development", "Motion", "UX design", "Art direction"];
+import { location } from "@/data/site";
+
+const title = ["Ik ontwerp", "én bouw."];
+const place = `Uit ${location}`;
+const disciplines = ["Web design", "Development", "WordPress", "Next.js", "Animatie"];
 const images = [1, 2, 3, 4, 5].map((n) => `https://picsum.photos/seed/portfolio-${n}/600/800`);
 
 function LocalTime() {

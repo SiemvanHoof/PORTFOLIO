@@ -1,7 +1,6 @@
 "use client";
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 type Props = {
   lines: string[];
@@ -15,18 +14,29 @@ export default function LineReveal({ lines, className, tag = "h2" }: Props) {
 
   useGSAP(
     () => {
-      const els = ref.current!.querySelectorAll(".lr-line");
+      const el = ref.current!;
+      const els = el.querySelectorAll(".lr-line");
+
+      // Beginstand: regels onder hun masker
+      gsap.set(els, { y: 0, yPercent: 110 });
+
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.set(els, { y: 0 });
+        gsap.set(els, { yPercent: 0 });
         return;
       }
-      gsap.to(els, {
-        y: 0,
-        duration: 1.1,
-        stagger: 0.08,
-        ease: "power4.out",
-        scrollTrigger: { trigger: ref.current, start: "top 85%" },
-      });
+
+      // Start zodra de kop écht in beeld komt
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          gsap.to(els, { yPercent: 0, duration: 1.1, stagger: 0.08, ease: "power4.out" });
+          observer.disconnect();
+        },
+        { rootMargin: "0px 0px -10% 0px" }
+      );
+      observer.observe(el);
+
+      return () => observer.disconnect();
     },
     { scope: ref }
   );
