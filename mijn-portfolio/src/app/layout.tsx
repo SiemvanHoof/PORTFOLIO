@@ -5,6 +5,7 @@ import Providers from "@/components/Providers";
 import SmoothScroll from "@/components/SmoothScroll";
 import Header from "@/components/Header";
 import Preloader from "@/components/Preloader";
+import PageTransition from "@/components/PageTransitions";
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SmoothScroll>
             <Header />
             <Preloader />
+            <PageTransition />
             {children}
             <Footer />
           </SmoothScroll>

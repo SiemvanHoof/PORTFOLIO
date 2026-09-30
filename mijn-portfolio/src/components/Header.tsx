@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import ScrollProgress from "./ScrollProgress";
 import Menu from "./Menu";
@@ -11,6 +12,12 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const pillRef = useRef<HTMLDivElement>(null);
   const lenis = useSmoothScroll();
+  const pathname = usePathname();
+
+  // Menu sluiten zodra je naar een andere pagina gaat
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (lenis) {
